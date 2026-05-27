@@ -1,1 +1,0 @@
-self.__REACT_LOADABLE_MANIFEST="{\"components/three/SceneWrapper.tsx -> ./Scene\":{\"id\":\"components/three/SceneWrapper.tsx -> ./Scene\",\"files\":[\"static/chunks/_app-pages-browser_components_three_Scene_tsx.js\"]}}"
