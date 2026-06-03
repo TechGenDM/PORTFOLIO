@@ -11,6 +11,7 @@ interface GithubRepo {
   html_url: string;
   created_at: string;
   language: string | null;
+  languages_url: string;
   topics: string[];
   stargazers_count: number;
   forks_count: number;
