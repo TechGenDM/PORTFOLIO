@@ -48,14 +48,16 @@ export default function RootLayout({
       <body style={{ cursor: "none" }}>
         <CustomCursor />
 
-        <div className="bg-black h-full w-full m-0 p-0 relative">
+        <div className="bg-black min-h-screen w-full m-0 p-0 relative flex flex-col">
           {/* Decorative SVG Frame Overlay */}
           <ViewportFrame />
           
           <LoaderWrapper>
             <Navbar />
             <PageTransition>
-              {children}
+              <main className="flex-grow flex flex-col w-full">
+                {children}
+              </main>
             </PageTransition>
           </LoaderWrapper>
         </div>

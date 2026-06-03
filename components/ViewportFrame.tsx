@@ -51,11 +51,25 @@ export default function ViewportFrame() {
         overflow: 'visible',
       }}
     >
+      <defs>
+        <linearGradient id="frameGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="rgba(180,200,255,0.22)" />
+          <stop offset="40%" stopColor="rgba(255,255,255,0.1)" />
+          <stop offset="100%" stopColor="rgba(120,100,255,0.15)" />
+        </linearGradient>
+      </defs>
       <path
         d={d}
         fill="none"
-        stroke="rgba(255, 255, 255, 0.12)"
+        stroke="url(#frameGrad)"
         strokeWidth="1"
+      />
+      {/* Subtle glow dot at top-right chamfer corner */}
+      <circle
+        cx={dims.w - pad - 8}
+        cy={pad + chamferTRv / 2}
+        r="2"
+        fill="rgba(160,180,255,0.4)"
       />
     </svg>
   )
