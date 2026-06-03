@@ -21,11 +21,11 @@ const orbitron = Orbitron({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://techgendm.dev"),
-  title: "Devashish Mishra (TechGen_DM) | Portfolio",
-  description: "Building Products at the Intersection of AI & Web.",
+  title: "Devasish Mishra (TechGen_DM) | Portfolio",
+  description: "Portfolio of Devasish Mishra (TechGenDM), Full Stack Developer & AI Enthusiast.",
   openGraph: {
-    title: "Devashish Mishra (TechGen_DM) | Portfolio",
-    description: "Building Products at the Intersection of AI & Web.",
+    title: "Devasish Mishra (TechGen_DM) | Portfolio",
+    description: "Portfolio of Devasish Mishra (TechGenDM), Full Stack Developer & AI Enthusiast.",
     images: [
       {
         url: "/og-image.png",

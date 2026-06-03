@@ -1,415 +1,409 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
-import gsap from "gsap";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
-const workData = [
-  {
-    id: 1,
-    title: "Full-Stack Developer",
-    company: "TechGen Digital",
-    type: "Freelance",
-    period: "Jan 2023 – Present",
-    bullets: [
-      "Architected and shipped 10+ client web applications using Next.js, TypeScript, and Supabase from design to production.",
-      "Integrated OpenAI & Gemini APIs to build AI-powered features including document summarization, smart search, and chat interfaces.",
-      "Reduced average page load times by 40% via code-splitting, lazy loading, and CDN-level caching strategies.",
-      "Established CI/CD pipelines with GitHub Actions, enabling zero-downtime deployments across staging and production environments.",
-    ],
-    skills: ["Next.js", "TypeScript", "Supabase", "OpenAI", "Docker", "Tailwind", "PostgreSQL", "React"],
-  },
-  {
-    id: 2,
-    title: "AI Product Engineer",
-    company: "Stealth Startup",
-    type: "Contract",
-    period: "Jun 2022 – Dec 2022",
-    bullets: [
-      "Built a RAG-based knowledge assistant that reduced internal support tickets by 60% by surfacing documentation in natural language.",
-      "Designed the vector embedding pipeline using LangChain, Pinecone, and OpenAI Embeddings for a 50k-document corpus.",
-      "Prototyped and A/B tested 3 distinct UX patterns for AI chat interfaces, selecting the variant with 2× session length.",
-      "Collaborated with a cross-functional team of 5 to ship from prototype to beta in under 8 weeks.",
-    ],
-    skills: ["LangChain", "Pinecone", "FastAPI", "React", "Python", "Redis", "OpenAI", "AWS"],
-  },
-  {
-    id: 3,
-    title: "Frontend Engineer",
-    company: "FinEdge Solutions",
-    type: "Full-time",
-    period: "Mar 2021 – May 2022",
-    bullets: [
-      "Led the redesign of a B2B dashboard used by 200+ enterprise clients, increasing user engagement by 35%.",
-      "Built a reusable component library in React + Storybook, cutting new feature dev time by 25%.",
-      "Integrated real-time WebSocket data feeds for live portfolio tracking with latency under 80ms.",
-      "Mentored 2 junior developers, conducting weekly code reviews and pair-programming sessions.",
-    ],
-    skills: ["React", "Redux", "Storybook", "WebSockets", "Figma", "Jest", "GraphQL", "Node.js"],
-  },
-  {
-    id: 4,
-    title: "Software Engineering Intern",
-    company: "Infosys Limited",
-    type: "Internship",
-    period: "Jul 2020 – Feb 2021",
-    bullets: [
-      "Developed REST APIs in Node.js and Express for an internal HR automation tool used by 500+ employees.",
-      "Wrote unit and integration tests achieving 82% code coverage using Mocha and Chai.",
-      "Automated data migration scripts to move 1.2M records from legacy MySQL to PostgreSQL with zero data loss.",
-      "Participated in agile sprints, daily standups, and sprint retrospectives across a 12-person engineering team.",
-    ],
-    skills: ["Node.js", "Express", "MySQL", "PostgreSQL", "Mocha", "REST APIs", "Git", "Docker"],
-  },
-];
+// ─── Interfaces ───────────────────────────────────────────────────────────────
+interface GithubRepo {
+  id: number;
+  name: string;
+  description: string | null;
+  html_url: string;
+  created_at: string;
+  language: string | null;
+  topics: string[];
+  stargazers_count: number;
+  forks_count: number;
+  color: string;
+}
 
-// ─── Skill size tiers ─────────────────────────────────────────────────────────
-const sizeTiers = [
-  { size: 95, fontSize: 13 },
-  { size: 95, fontSize: 13 },
-  { size: 75, fontSize: 12 },
-  { size: 75, fontSize: 12 },
-  { size: 75, fontSize: 12 },
-  { size: 58, fontSize: 11 },
-  { size: 58, fontSize: 11 },
-  { size: 58, fontSize: 11 },
-];
+// ─── Utilities ────────────────────────────────────────────────────────────────
+const colors = ["#ff3366", "#00f0ff", "#a020f0", "#00ff88", "#ffaa00", "#ff00aa", "#f000ff"];
+const getColor = (str: string) => colors[str.length % colors.length];
 
-// Scattered layout positions (top%, left%) for up to 8 skills inside the right panel
-const skillPositions = [
-  { top: "10%", left: "15%" },
-  { top: "8%", left: "55%" },
-  { top: "35%", left: "5%" },
-  { top: "30%", left: "40%" },
-  { top: "30%", left: "70%" },
-  { top: "58%", left: "20%" },
-  { top: "55%", left: "55%" },
-  { top: "60%", left: "78%" },
-];
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+};
 
-const floatDurations = [2.4, 3.1, 2.8, 3.5, 2.2, 3.8, 2.6, 3.0];
+// ─── Variants ─────────────────────────────────────────────────────────────────
+const containerVariants: Variants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 1000 : -1000,
+    opacity: 0,
+    scale: 0.95,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    scale: 1,
+    transition: {
+      x: { type: "spring", stiffness: 300, damping: 30 },
+      opacity: { duration: 0.4 },
+      scale: { duration: 0.4 },
+      staggerChildren: 0.1,
+    },
+  },
+  exit: (direction: number) => ({
+    x: direction < 0 ? 1000 : -1000,
+    opacity: 0,
+    scale: 0.95,
+    transition: {
+      x: { type: "spring", stiffness: 300, damping: 30 },
+      opacity: { duration: 0.3 },
+      scale: { duration: 0.3 },
+    },
+  }),
+};
+
+const itemVariants: Variants = {
+  enter: { y: 20, opacity: 0 },
+  center: { 
+    y: 0, 
+    opacity: 1,
+    transition: { type: "spring", stiffness: 400, damping: 30 }
+  },
+};
+
+// ─── Loading Component ────────────────────────────────────────────────────────
+const LoadingRadar = () => {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#030303] w-full">
+      <div className="relative w-64 h-64 flex items-center justify-center">
+        {/* Radar Rings */}
+        {[1, 2, 3].map((i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full border border-cyan-500/30"
+            initial={{ width: 0, height: 0, opacity: 1 }}
+            animate={{ width: 256, height: 256, opacity: 0 }}
+            transition={{
+              duration: 2.5,
+              repeat: Infinity,
+              delay: i * 0.8,
+              ease: "easeOut",
+            }}
+          />
+        ))}
+        {/* Center Node */}
+        <div className="w-4 h-4 bg-cyan-500 rounded-full shadow-[0_0_20px_#00f0ff]" />
+      </div>
+      <motion.p 
+        animate={{ opacity: [0.3, 1, 0.3] }}
+        transition={{ duration: 1.5, repeat: Infinity }}
+        className="font-orbitron tracking-[0.3em] text-cyan-500/80 uppercase text-sm mt-8"
+      >
+        Syncing with GitHub...
+      </motion.p>
+    </div>
+  );
+};
 
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function WorkPage() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const contentRef  = useRef<HTMLDivElement>(null);
-  const skillsRef   = useRef<HTMLDivElement>(null);
-  const isAnimating = useRef(false);
+  const [[page, direction], setPage] = useState([0, 0]);
+  const [repos, setRepos] = useState<GithubRepo[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const job = workData[currentIndex];
+  const [languagesCache, setLanguagesCache] = useState<Record<number, string[]>>({});
 
-  const navigate = useCallback(
-    (dir: 1 | -1) => {
-      if (isAnimating.current) return;
-      isAnimating.current = true;
-
-      const nextIndex = (currentIndex + dir + workData.length) % workData.length;
-
-      const tl = gsap.timeline({
-        onComplete: () => {
-          isAnimating.current = false;
-        },
-      });
-
-      // Animate out
-      tl.to([contentRef.current, skillsRef.current], {
-        opacity: 0,
-        x: dir * -20,
-        duration: 0.2,
-        ease: "power2.in",
-        onComplete: () => setCurrentIndex(nextIndex),
-      })
-      // Animate in (runs after React re-renders with new content)
-      .set([contentRef.current, skillsRef.current], { x: dir * 20 })
-      .to([contentRef.current, skillsRef.current], {
-        opacity: 1,
-        x: 0,
-        duration: 0.3,
-        ease: "power2.out",
-      });
-    },
-    [currentIndex]
-  );
-
-  // Reset opacity/x on first mount
+  // Fetch GitHub Repos
   useEffect(() => {
-    gsap.set([contentRef.current, skillsRef.current], { opacity: 1, x: 0 });
+    const fetchRepos = async () => {
+      try {
+        const res = await fetch("https://api.github.com/users/TechGenDM/repos?sort=created&direction=desc&per_page=100");
+        if (!res.ok) throw new Error("Failed to fetch");
+        
+        const data = await res.json();
+        
+        // Transform the data
+        const mappedRepos: GithubRepo[] = data
+          .filter((repo: any) => !repo.fork) // Ignore forks
+          .map((repo: any) => ({
+            id: repo.id,
+            name: repo.name.replace(/-/g, " "),
+            description: repo.description || "A stealth open-source project building the future.",
+            html_url: repo.html_url,
+            created_at: repo.created_at,
+            language: repo.language,
+            languages_url: repo.languages_url, // Added languages_url
+            topics: repo.topics && repo.topics.length > 0 ? repo.topics : [],
+            stargazers_count: repo.stargazers_count,
+            forks_count: repo.forks_count,
+            color: getColor(repo.name),
+          }));
+
+        setRepos(mappedRepos);
+      } catch (error) {
+        console.error("GitHub Fetch Error:", error);
+        // Fallback data if API rate limited
+        setRepos([
+          {
+            id: 1, name: "student ml api", description: "A production-grade ML API built with Flask and scikit-learn, delivering real-time student performance predictions.", html_url: "https://github.com/TechGenDM/student-ml-api", created_at: "2025-12-29T08:33:46Z", language: "Python", languages_url: "", topics: ["Machine Learning", "API"], stargazers_count: 5, forks_count: 1, color: "#ff3366"
+          },
+          {
+            id: 2, name: "NotiWave", description: "A modern notification UI system showcasing interactive alerts and smooth user experience.", html_url: "https://github.com/TechGenDM/NotiWave", created_at: "2025-12-05T15:35:59Z", language: "CSS", languages_url: "", topics: ["UI", "Animation"], stargazers_count: 12, forks_count: 3, color: "#00f0ff"
+          }
+        ]);
+      } finally {
+        setTimeout(() => setIsLoading(false), 1500);
+      }
+    };
+
+    fetchRepos();
   }, []);
 
+  const index = repos.length > 0 ? Math.abs(page % repos.length) : 0;
+  const activeRepo = repos[index];
+
+  // Lazy-load all languages for the currently active repo
+  useEffect(() => {
+    if (!activeRepo || !activeRepo.languages_url) return;
+    
+    // If we already fetched languages for this repo, do nothing
+    if (languagesCache[activeRepo.id]) return;
+
+    const fetchLanguages = async () => {
+      try {
+        const res = await fetch(activeRepo.languages_url);
+        if (!res.ok) return;
+        const data = await res.json();
+        // The API returns an object like { "TypeScript": 1234, "CSS": 567 }
+        // We just want the keys (the language names)
+        const allLanguages = Object.keys(data);
+        
+        setLanguagesCache(prev => ({
+          ...prev,
+          [activeRepo.id]: allLanguages
+        }));
+      } catch (e) {
+        console.error("Failed to fetch languages", e);
+      }
+    };
+
+    fetchLanguages();
+  }, [activeRepo, languagesCache]);
+
+  const paginate = (newDirection: number) => {
+    setPage([page + newDirection, newDirection]);
+  };
+
+  if (isLoading || !activeRepo) return <LoadingRadar />;
+
   return (
-    <div
-      className="work-page-root relative w-full overflow-hidden bg-black"
-      style={{ height: "100vh", paddingTop: "80px" }}
-    >
-      {/* Vertical divider */}
-      <div
-        className="work-divider absolute top-0 bottom-0"
-        style={{
-          left: "60%",
-          width: "1px",
-          background: "rgba(255,255,255,0.1)",
-        }}
-      />
-
-      {/* ── LEFT PANEL ──────────────────────────────────────────────────── */}
-      <div
-        className="work-left-panel absolute top-0 bottom-0"
-        style={{ left: 0, width: "60%", paddingTop: "60px" }}
-      >
-        {/* Left arrow */}
-        <button
-          onClick={() => navigate(-1)}
-          aria-label="Previous job"
-          className="absolute"
-          style={{
-            left: "24px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            width: "40px",
-            height: "40px",
-            borderRadius: "50%",
-            border: "1px solid rgba(255,255,255,0.25)",
-            background: "transparent",
-            color: "white",
-            fontSize: "20px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-            zIndex: 20,
-            transition: "opacity 0.2s",
-          }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = "0.7")}
-          onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-        >
-          ‹
-        </button>
-
-        {/* Right arrow */}
-        <button
-          onClick={() => navigate(1)}
-          aria-label="Next job"
-          className="absolute"
-          style={{
-            right: "24px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            width: "40px",
-            height: "40px",
-            borderRadius: "50%",
-            border: "none",
-            background: "white",
-            color: "black",
-            fontSize: "20px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-            zIndex: 20,
-            transition: "opacity 0.2s",
-          }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = "0.7")}
-          onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-        >
-          ›
-        </button>
-
-        {/* Animated content */}
-        <div
-          ref={contentRef}
-          style={{
-            padding: "0 80px",
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-start",
-          }}
-        >
-          {/* Role */}
-          <h2
+    <div className="relative min-h-screen w-full bg-[#030303] overflow-hidden flex flex-col justify-center items-center pt-20 pb-10">
+      
+      {/* ── BACKGROUND LAYER ── */}
+      <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden">
+        {/* Massive scrolling text */}
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={activeRepo.id}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.03, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            className="absolute whitespace-nowrap text-center"
             style={{
-              fontFamily: "var(--font-rajdhani)",
-              fontWeight: 700,
-              fontSize: "28px",
-              color: "#ffffff",
-              margin: 0,
-              lineHeight: 1.1,
+              fontFamily: "var(--font-orbitron)",
+              fontSize: "clamp(10rem, 25vw, 30rem)",
+              fontWeight: 900,
+              color: "transparent",
+              WebkitTextStroke: "2px white",
+              letterSpacing: "-0.05em",
             }}
           >
-            {job.title}
-          </h2>
+            {activeRepo.name.toUpperCase()}
+          </motion.div>
+        </AnimatePresence>
 
-          {/* Company */}
-          <p
-            style={{
-              fontFamily: "var(--font-rajdhani)",
-              fontWeight: 400,
-              fontSize: "18px",
-              color: "#ffffff",
-              margin: "6px 0 4px",
-            }}
-          >
-            {job.company}
-          </p>
-
-          {/* Type + period */}
-          <p
-            style={{
-              fontFamily: "var(--font-rajdhani)",
-              fontWeight: 300,
-              fontSize: "12px",
-              color: "rgba(255,255,255,0.5)",
-              margin: 0,
-              letterSpacing: "0.05em",
-              textTransform: "uppercase",
-            }}
-          >
-            {job.type} &nbsp;·&nbsp; {job.period}
-          </p>
-
-          {/* Experience section */}
-          <h3
-            style={{
-              fontFamily: "var(--font-rajdhani)",
-              fontWeight: 600,
-              fontSize: "20px",
-              color: "#ffffff",
-              marginTop: "24px",
-              marginBottom: "12px",
-            }}
-          >
-            Experience
-          </h3>
-
-          <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-            {job.bullets.map((bullet, i) => (
-              <li
-                key={i}
-                style={{
-                  display: "flex",
-                  gap: "10px",
-                  marginBottom: "10px",
-                  fontFamily: "var(--font-rajdhani)",
-                  fontWeight: 300,
-                  fontSize: "14px",
-                  color: "rgba(255,255,255,0.8)",
-                  lineHeight: 1.6,
-                }}
-              >
-                <span style={{ color: "#ffffff", flexShrink: 0, marginTop: "1px" }}>›</span>
-                <span>{bullet}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Dot indicators */}
-        <div
-          className="absolute"
-          style={{
-            bottom: "36px",
-            left: 0,
-            right: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "8px",
+        {/* Ambient Gradient Orb */}
+        <motion.div
+          animate={{
+            background: `radial-gradient(circle, ${activeRepo.color}33 0%, transparent 70%)`,
           }}
-        >
-          {workData.map((_, i) => (
-            <div
-              key={i}
-              onClick={() => {
-                const dir = i > currentIndex ? 1 : -1;
-                if (i !== currentIndex) navigate(dir);
-              }}
-              style={{
-                cursor: "pointer",
-                borderRadius: "9999px",
-                background: "white",
-                transition: "all 0.3s ease",
-                width:  i === currentIndex ? "24px" : "6px",
-                height: "6px",
-                opacity: i === currentIndex ? 1 : 0.35,
-              }}
-            />
-          ))}
-        </div>
+          transition={{ duration: 1 }}
+          className="absolute w-[80vw] h-[80vw] max-w-[1000px] max-h-[1000px] rounded-full blur-[120px]"
+        />
       </div>
 
-      {/* ── RIGHT PANEL ─────────────────────────────────────────────────── */}
-      <div
-        className="work-right-panel absolute top-0 bottom-0"
-        style={{ left: "60%", right: 0, paddingTop: "80px" }}
-      >
-        <div
-          ref={skillsRef}
-          style={{
-            position: "relative",
-            width: "100%",
-            height: "100%",
-            padding: "32px 32px 0",
-          }}
-        >
-          {/* Heading */}
-          <p
-            style={{
-              fontFamily: "var(--font-rajdhani)",
-              fontWeight: 400,
-              fontSize: "16px",
-              color: "rgba(255,255,255,0.6)",
-              margin: "0 0 0 0",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-            }}
+      {/* ── MAIN CONTENT LAYER ── */}
+      <div className="relative z-10 w-full max-w-7xl px-4 md:px-8 mx-auto flex-grow flex items-center">
+        <AnimatePresence initial={false} custom={direction} mode="wait">
+          <motion.div
+            key={page}
+            custom={direction}
+            variants={containerVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="w-full flex flex-col lg:flex-row gap-8 lg:gap-16 items-center"
           >
-            Technical Skills
-          </p>
+            
+            {/* Left Column: Repo Details */}
+            <div className="w-full lg:w-1/2 flex flex-col items-start glass-card p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden group">
+              {/* Card internal glow */}
+              <div 
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                style={{
+                  background: `radial-gradient(600px circle at 50% 0%, ${activeRepo.color}15, transparent 70%)`
+                }}
+              />
 
-          {/* Floating skill circles */}
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              top: "60px",
-            }}
-          >
-            {job.skills.map((skill, i) => {
-              const tier = sizeTiers[i] ?? { size: 58, fontSize: 11 };
-              const pos  = skillPositions[i] ?? { top: "50%", left: "50%" };
-              const dur  = floatDurations[i] ?? 3;
+              <motion.div variants={itemVariants} className="mb-4 flex flex-wrap gap-3">
+                <span className="px-3 py-1 rounded-full border border-white/20 bg-white/5 text-[10px] uppercase tracking-[0.2em] font-rajdhani text-white/80 flex items-center gap-2">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                  TechGenDM Repository
+                </span>
+                
+                {/* Metrics Badges */}
+                <span className="px-3 py-1 rounded-full border border-yellow-500/30 bg-yellow-500/10 text-[10px] uppercase tracking-[0.1em] font-rajdhani text-yellow-500/90 flex items-center gap-1.5">
+                  ⭐ {activeRepo.stargazers_count}
+                </span>
+                <span className="px-3 py-1 rounded-full border border-white/20 bg-white/5 text-[10px] uppercase tracking-[0.1em] font-rajdhani text-white/60 flex items-center gap-1.5">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 18v-6a4 4 0 0 0-4-4H4"></path><path d="M16 8h4a4 4 0 0 1 4 4v6"></path><circle cx="12" cy="21" r="3"></circle><circle cx="4" cy="5" r="3"></circle><circle cx="20" cy="5" r="3"></circle></svg>
+                  {activeRepo.forks_count}
+                </span>
+              </motion.div>
 
-              return (
-                <div
-                  key={`${job.id}-${skill}`}
-                  style={{
-                    position: "absolute",
-                    top:  pos.top,
-                    left: pos.left,
-                    width:  `${tier.size}px`,
-                    height: `${tier.size}px`,
-                    borderRadius: "50%",
-                    background: "white",
-                    color: "black",
-                    fontFamily: "var(--font-rajdhani)",
-                    fontWeight: 600,
-                    fontSize: `${tier.fontSize}px`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textAlign: "center",
-                    padding: "4px",
-                    animation: `float ${dur}s ease-in-out infinite`,
-                    animationDelay: `${i * 0.4}s`,
-                  }}
-                >
-                  {skill}
-                </div>
-              );
-            })}
+              <motion.h2 
+                variants={itemVariants}
+                className="text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-white leading-tight mb-2 capitalize"
+                style={{ textShadow: "0 0 40px rgba(255,255,255,0.2)" }}
+              >
+                {activeRepo.name}
+              </motion.h2>
+
+              <motion.div variants={itemVariants} className="flex items-center gap-4 mb-8">
+                <h3 className="text-sm md:text-base font-rajdhani text-white/50 tracking-widest uppercase">
+                  Created: {formatDate(activeRepo.created_at)}
+                </h3>
+              </motion.div>
+
+              <div className="w-full h-[1px] bg-white/10 mb-8" />
+
+              <motion.div variants={itemVariants} className="w-full mb-8">
+                <p className="font-rajdhani text-white/70 text-lg md:text-xl leading-relaxed font-light border-l-2 pl-4" style={{ borderColor: activeRepo.color }}>
+                  {activeRepo.description}
+                </p>
+              </motion.div>
+
+              {/* View Live Code Button */}
+              <motion.a 
+                variants={itemVariants}
+                href={activeRepo.html_url}
+                target="_blank"
+                rel="noreferrer"
+                className="relative overflow-hidden group px-8 py-3 rounded-full border border-white/20 hover:border-white/50 transition-colors duration-300 flex items-center gap-3"
+              >
+                <div 
+                  className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300"
+                  style={{ backgroundColor: activeRepo.color }}
+                />
+                <span className="font-orbitron text-sm tracking-widest text-white relative z-10">VIEW PROJECT</span>
+                <svg className="relative z-10 transition-transform duration-300 group-hover:translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+              </motion.a>
+
+            </div>
+
+            {/* Right Column: Skills Grid */}
+            <div className="w-full lg:w-1/2 flex flex-col gap-6">
+              <motion.h3 
+                variants={itemVariants}
+                className="font-orbitron text-sm uppercase tracking-[0.3em] text-white/40 pl-2"
+              >
+                Tech Stack & Topics
+              </motion.h3>
+              
+              <div className="flex flex-wrap gap-3">
+                {/* Languages */}
+                {(languagesCache[activeRepo?.id] || (activeRepo?.language ? [activeRepo.language] : [])).map((lang: string) => (
+                  <motion.div
+                    key={lang}
+                    variants={itemVariants}
+                    className="relative px-5 py-3 rounded-lg overflow-hidden group cursor-default"
+                  >
+                    <div className="absolute inset-0 bg-white/10 border border-white/20 rounded-lg" />
+                    <div 
+                      className="absolute inset-0 opacity-20"
+                      style={{ backgroundColor: activeRepo.color }}
+                    />
+                    <span className="relative z-10 font-rajdhani text-white font-semibold tracking-wide flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: activeRepo.color, boxShadow: `0 0 10px ${activeRepo.color}` }} />
+                      {lang}
+                    </span>
+                  </motion.div>
+                ))}
+
+                {/* Topics */}
+                {activeRepo.topics.map((topic, i) => (
+                  <motion.div
+                    key={topic}
+                    variants={itemVariants}
+                    className="relative px-4 py-2 rounded-lg overflow-hidden group cursor-default"
+                  >
+                    <div className="absolute inset-0 bg-white/5 border border-white/5 rounded-lg transition-colors duration-300 group-hover:border-white/20" />
+                    <div 
+                      className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
+                      style={{ backgroundColor: activeRepo.color }}
+                    />
+                    <span className="relative z-10 font-rajdhani text-white/60 group-hover:text-white/90 transition-colors font-medium tracking-wide text-sm capitalize">
+                      {topic.replace(/-/g, " ")}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* ── NAVIGATION STRIP ── */}
+      <div className="relative z-20 w-full max-w-7xl px-4 md:px-8 mx-auto mt-12 flex justify-between items-center">
+        
+        {/* Pagination Info */}
+        <div className="flex items-center gap-4">
+          <div className="font-orbitron text-xl font-bold text-white">
+            0{index + 1}
+          </div>
+          <div className="w-12 h-[1px] bg-white/20 relative">
+            <motion.div 
+              className="absolute left-0 top-0 bottom-0 bg-white"
+              initial={false}
+              animate={{ width: `${((index + 1) / repos.length) * 100}%` }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+            />
+          </div>
+          <div className="font-orbitron text-sm text-white/40">
+            0{repos.length}
           </div>
         </div>
+
+        {/* Controls */}
+        <div className="flex gap-4">
+          <button
+            onClick={() => paginate(-1)}
+            className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 hover:bg-white/5 transition-all duration-300"
+            aria-label="Previous Project"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <button
+            onClick={() => paginate(1)}
+            className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 hover:bg-white/5 transition-all duration-300"
+            aria-label="Next Project"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+
       </div>
+
     </div>
   );
 }

@@ -381,7 +381,7 @@ export default function AboutPage() {
             textTransform: "uppercase",
           }}
         >
-          Devashish<br />Mishra
+          Devasish<br />Mishra
         </h1>
 
         <p
@@ -409,9 +409,7 @@ export default function AboutPage() {
             maxWidth: 520, textAlign: "center", lineHeight: 1.8,
           }}
         >
-          I design and engineer digital products at the intersection of software
-          and intelligence — building things that feel considered, move fast,
-          and solve real problems.
+          🚀 AI &amp; Tech enthusiast <br/> Crafting intelligent solutions with code ✨ <br/> Innovating tomorrow, today.
         </p>
 
         {/* Scroll cue */}
