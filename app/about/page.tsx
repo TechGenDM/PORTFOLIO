@@ -452,7 +452,7 @@ export default function AboutPage() {
         style={{ height: "100vh", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 24px", zIndex: 2 }}
       >
         {/* Status badge */}
-        <div style={{ position: "absolute", top: 80, left: 40, display: "flex", alignItems: "center", gap: 8 }}>
+        <div className="about-status-badge" style={{ position: "absolute", top: 80, left: 40, display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", animation: "pulse-green 2s ease-in-out infinite" }} />
           <span style={{ fontFamily: "var(--font-rajdhani)", fontSize: 12, color: "rgba(34,197,94,0.8)", letterSpacing: "0.15em", textTransform: "uppercase" }}>
             Available for Projects
@@ -542,7 +542,7 @@ export default function AboutPage() {
             }}
           >
             {/* Dot on timeline */}
-            <div style={{
+            <div className="timeline-dot-mobile-hide" style={{
               position: "absolute", left: "50%", top: 18, transform: "translateX(-50%)",
               width: 12, height: 12, borderRadius: "50%",
               background: "rgba(100,160,255,0.4)", border: "2px solid rgba(100,160,255,0.7)",
@@ -567,7 +567,7 @@ export default function AboutPage() {
           SECTION 3 — STATS COUNTERS
       ════════════════════════════════════════════════════════ */}
       <section ref={statsRef} style={{ padding: "80px 24px", zIndex: 2, position: "relative" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto", display: "flex", justifyContent: "center", gap: "clamp(40px, 8vw, 100px)", flexWrap: "wrap" }}>
+        <div className="about-stats-row" style={{ maxWidth: 1000, margin: "0 auto", display: "flex", justifyContent: "center", gap: "clamp(40px, 8vw, 100px)", flexWrap: "wrap" }}>
           {[
             { num: 1, label: "Years Building" },
             { num: 36, label: "Projects Shipped" },
@@ -601,7 +601,7 @@ export default function AboutPage() {
       {/* ════════════════════════════════════════════════════════
           SECTION 4 — SKILLS / ARSENAL
       ════════════════════════════════════════════════════════ */}
-      <section ref={skillsRef} style={{ padding: "100px 24px", maxWidth: 1000, margin: "0 auto", zIndex: 2, position: "relative" }}>
+      <section ref={skillsRef} className="about-skills-section" style={{ padding: "100px 24px", maxWidth: 1000, margin: "0 auto", zIndex: 2, position: "relative" }}>
         <div className="section-label" style={{ textAlign: "center" }}>Technical Arsenal</div>
         <h2 style={{ fontFamily: "var(--font-orbitron)", fontSize: "clamp(22px, 3vw, 36px)", color: "#fff", textAlign: "center", marginBottom: 20, letterSpacing: "0.04em" }}>
           Tools I Build With
@@ -696,12 +696,12 @@ export default function AboutPage() {
         
         {/* Visme Form Embed */}
         <div 
-          className="visme_d" 
+          className="visme_d about-form-embed" 
           data-title="Animated Online Contact Form" 
           data-url="6vz0z647-animated-online-contact-form" 
           data-domain="forms" 
           data-full-page="false" 
-          data-min-height="900px" 
+          data-min-height="700px" 
           data-form-id="183937"
         ></div>
         <Script src="https://static-bundles.visme.co/forms/vismeforms-embed.js" strategy="lazyOnload" />

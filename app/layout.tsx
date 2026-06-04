@@ -45,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${rajdhani.variable} ${orbitron.variable}`}>
-      <body style={{ cursor: "none" }}>
+      <body>
         <CustomCursor />
 
         <div className="bg-black min-h-screen w-full m-0 p-0 relative flex flex-col">

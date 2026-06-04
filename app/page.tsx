@@ -105,6 +105,9 @@ export default function Home() {
   return (
     <>
       <style>{`
+        /* ═══════════════════════════════════════════════════════════
+           ANIMATIONS
+        ═══════════════════════════════════════════════════════════ */
         @keyframes scroll-bounce {
           0%, 100% { transform: translateY(0); opacity: 0.7; }
           50%       { transform: translateY(6px); opacity: 0.3; }
@@ -117,6 +120,10 @@ export default function Home() {
           0%, 100% { opacity: 0.15; }
           50%       { opacity: 0.35; }
         }
+
+        /* ═══════════════════════════════════════════════════════════
+           BASE STYLES (Desktop-first)
+        ═══════════════════════════════════════════════════════════ */
         .gradient-text {
           background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.75) 60%, rgba(120,180,255,0.9) 100%);
           -webkit-background-clip: text;
@@ -194,15 +201,263 @@ export default function Home() {
           border-color: transparent;
           box-shadow: 0 0 24px rgba(255,255,255,0.2);
         }
+
+        /* ═══════════════════════════════════════════════════════════
+           MOBILE — 768px AND BELOW
+           Complete layout restructure for touch devices
+        ═══════════════════════════════════════════════════════════ */
+        @media (max-width: 768px) {
+          /* Root container */
+          .home-viewport {
+            height: 100vh !important;
+            height: 100dvh !important;
+          }
+
+          /* ── 3D Scene: ambient background ────────────────────── */
+          .home-3d-scene {
+            width: 220px !important;
+            height: 220px !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            z-index: 1 !important;
+            opacity: 0.25 !important;
+            pointer-events: none !important;
+          }
+
+          /* ── Content block: flex column, full width ────────── */
+          .home-content-block {
+            position: absolute !important;
+            top: 56px !important;
+            left: 20px !important;
+            right: 20px !important;
+            z-index: 20 !important;
+          }
+
+          /* Badge */
+          .home-badge {
+            margin-bottom: 12px !important;
+          }
+          .home-badge span {
+            font-size: 10px !important;
+            padding: 3px 10px 3px 7px !important;
+          }
+
+          /* Name */
+          .hero-name {
+            font-size: 30px !important;
+            letter-spacing: 0.02em !important;
+          }
+
+          /* Subtitle */
+          .home-subtitle {
+            font-size: 12px !important;
+            margin-top: 8px !important;
+            max-width: 280px !important;
+          }
+
+          /* Stats */
+          .home-stats {
+            gap: 14px !important;
+            margin-top: 16px !important;
+          }
+          .home-stat-item {
+            gap: 14px !important;
+          }
+          .stat-value {
+            font-size: 15px !important;
+          }
+          .stat-label {
+            font-size: 9px !important;
+            letter-spacing: 0.06em !important;
+          }
+          .stat-divider {
+            height: 22px !important;
+          }
+
+          /* CTAs */
+          .home-cta-row {
+            margin-top: 16px !important;
+            gap: 8px !important;
+          }
+          .home-cta-row .cta-btn {
+            padding: 8px 16px !important;
+            font-size: 11px !important;
+          }
+
+          /* Socials */
+          .home-socials {
+            margin-top: 12px !important;
+            gap: 8px !important;
+          }
+          .home-socials .social-btn {
+            width: 34px !important;
+            height: 34px !important;
+          }
+
+          /* ── Quote block: hidden on mobile ──────────────────── */
+          .home-quote-block {
+            display: none !important;
+          }
+
+          /* ── Tagline: compact at bottom ─────────────────────── */
+          .home-tagline {
+            font-size: 20px !important;
+            bottom: 16px !important;
+            padding: 0 20px !important;
+          }
+
+          /* ── SHIFT toggle: above tagline ────────────────────── */
+          .home-shift {
+            bottom: 48px !important;
+            left: 20px !important;
+            gap: 8px !important;
+          }
+          .home-shift .shift-track {
+            width: 36px !important;
+            height: 18px !important;
+          }
+          .home-shift .shift-knob {
+            width: 10px !important;
+            height: 10px !important;
+          }
+          .home-shift .shift-label {
+            font-size: 11px !important;
+            letter-spacing: 0.15em !important;
+          }
+
+          /* ── Ambient blobs: simplified ──────────────────────── */
+          .home-glow-1 {
+            width: 200px !important;
+            height: 200px !important;
+            top: 5% !important;
+          }
+          .home-glow-2 {
+            display: none !important;
+          }
+        }
+
+        /* ═══════════════════════════════════════════════════════════
+           EXTRA SMALL — 480px (iPhone SE, etc.)
+        ═══════════════════════════════════════════════════════════ */
+        @media (max-width: 480px) {
+          .home-content-block {
+            top: 52px !important;
+            left: 16px !important;
+            right: 16px !important;
+          }
+          .hero-name {
+            font-size: 26px !important;
+          }
+          .home-subtitle {
+            font-size: 11px !important;
+            max-width: 240px !important;
+          }
+          .home-stats {
+            gap: 10px !important;
+          }
+          .home-stat-item {
+            gap: 10px !important;
+          }
+          .stat-value {
+            font-size: 13px !important;
+          }
+          .stat-label {
+            font-size: 8px !important;
+          }
+          .stat-divider {
+            height: 18px !important;
+          }
+          .home-tagline {
+            font-size: 16px !important;
+            bottom: 14px !important;
+            padding: 0 16px !important;
+          }
+          .home-shift {
+            bottom: 42px !important;
+            left: 16px !important;
+          }
+        }
+
+        /* ═══════════════════════════════════════════════════════════
+           TABLET — 769px to 1024px
+        ═══════════════════════════════════════════════════════════ */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .home-3d-scene {
+            width: 380px !important;
+            height: 380px !important;
+          }
+          .home-content-block {
+            left: 32px !important;
+          }
+          .home-quote-block {
+            right: 32px !important;
+          }
+        }
+
+        /* ═══════════════════════════════════════════════════════════
+           SHORT VIEWPORTS (landscape phones)
+        ═══════════════════════════════════════════════════════════ */
+        @media (max-height: 600px) and (max-width: 768px) {
+          .home-3d-scene {
+            display: none !important;
+          }
+          .home-badge {
+            margin-bottom: 6px !important;
+          }
+          .hero-name {
+            font-size: 24px !important;
+          }
+          .home-stats {
+            margin-top: 10px !important;
+          }
+          .home-cta-row {
+            margin-top: 10px !important;
+          }
+          .home-socials {
+            margin-top: 8px !important;
+          }
+          .home-tagline {
+            font-size: 14px !important;
+            bottom: 8px !important;
+          }
+          .home-shift {
+            bottom: 32px !important;
+          }
+        }
+
+        /* ═══════════════════════════════════════════════════════════
+           FOLDABLE DEVICES (~280px–360px)
+        ═══════════════════════════════════════════════════════════ */
+        @media (max-width: 360px) {
+          .home-content-block {
+            top: 48px !important;
+            left: 12px !important;
+            right: 12px !important;
+          }
+          .hero-name {
+            font-size: 22px !important;
+          }
+          .home-subtitle {
+            font-size: 10px !important;
+          }
+          .home-cta-row .cta-btn {
+            padding: 6px 12px !important;
+            font-size: 10px !important;
+          }
+          .home-tagline {
+            font-size: 14px !important;
+          }
+        }
       `}</style>
 
       <div
-        className="relative w-full overflow-hidden"
+        className="relative w-full overflow-hidden home-viewport"
         style={{ height: "100vh" }}
       >
         {/* Ambient glow blobs */}
         <div
-          className="glow-bg"
+          className="glow-bg home-glow-1"
           style={{
             position: "absolute",
             top: "15%",
@@ -217,6 +472,7 @@ export default function Home() {
           }}
         />
         <div
+          className="home-glow-2"
           style={{
             position: "absolute",
             bottom: "10%",
@@ -233,6 +489,7 @@ export default function Home() {
 
         {/* ── TOP-LEFT: Badge + Name + Subtitle + Stats + Socials ── */}
         <div
+          className="home-content-block"
           style={{
             position: "absolute",
             top: "76px",
@@ -244,7 +501,7 @@ export default function Home() {
           }}
         >
           {/* Available badge */}
-          <div ref={badgeRef} style={{ marginBottom: "18px" }}>
+          <div ref={badgeRef} className="home-badge" style={{ marginBottom: "18px" }}>
             <span
               style={{
                 display: "inline-flex",
@@ -297,6 +554,7 @@ export default function Home() {
           {/* Subtitle */}
           <p
             ref={subtitleRef}
+            className="home-subtitle"
             style={{
               fontFamily: "var(--font-rajdhani)",
               fontWeight: 400,
@@ -317,6 +575,7 @@ export default function Home() {
           {/* Stats row */}
           <div
             ref={statsRef}
+            className="home-stats"
             style={{
               display: "flex",
               alignItems: "center",
@@ -325,9 +584,10 @@ export default function Home() {
             }}
           >
             {stats.map((s, i) => (
-              <div key={s.label} style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+              <div key={s.label} className="home-stat-item" style={{ display: "flex", alignItems: "center", gap: "20px" }}>
                 <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
                   <span
+                    className="stat-value"
                     style={{
                       fontFamily: "var(--font-orbitron)",
                       fontWeight: 700,
@@ -339,6 +599,7 @@ export default function Home() {
                     {s.value}
                   </span>
                   <span
+                    className="stat-label"
                     style={{
                       fontFamily: "var(--font-rajdhani)",
                       fontSize: "10px",
@@ -357,6 +618,7 @@ export default function Home() {
 
           {/* CTA Buttons */}
           <div
+            className="home-cta-row"
             style={{
               display: "flex",
               gap: "10px",
@@ -380,6 +642,7 @@ export default function Home() {
           {/* Social links */}
           <div
             ref={socialsRef}
+            className="home-socials"
             style={{ display: "flex", gap: "10px", marginTop: "20px" }}
           >
             {socials.map((s) => (
@@ -400,7 +663,7 @@ export default function Home() {
 
         {/* ── CENTER: 3D Scene ── */}
         <div
-          className="absolute scene-container"
+          className="absolute home-3d-scene scene-container"
           style={{
             top: "50%",
             left: "50%",
@@ -416,6 +679,7 @@ export default function Home() {
         {/* ── BOTTOM-RIGHT: Quote block ── */}
         <div
           ref={bottomRightRef}
+          className="home-quote-block"
           style={{
             position: "absolute",
             bottom: "140px",
@@ -501,7 +765,7 @@ export default function Home() {
         {/* ── BOTTOM-CENTER: Tagline ── */}
         <div
           ref={taglineRef}
-          className="absolute hero-tagline"
+          className="absolute home-tagline"
           style={{
             bottom: "28px",
             left: 0,
@@ -522,6 +786,7 @@ export default function Home() {
         {/* ── BOTTOM-LEFT: Shift toggle (dummy) ── */}
         <div
           ref={scrollRef}
+          className="home-shift"
           style={{
             position: "absolute",
             bottom: "44px",
@@ -534,6 +799,7 @@ export default function Home() {
           }}
         >
           <div
+            className="shift-track"
             style={{
               width: "42px",
               height: "22px",
@@ -545,6 +811,7 @@ export default function Home() {
             }}
           >
             <div
+              className="shift-knob"
               style={{
                 width: "12px",
                 height: "12px",
@@ -554,6 +821,7 @@ export default function Home() {
             />
           </div>
           <span
+            className="shift-label"
             style={{
               fontFamily: "var(--font-rajdhani)",
               fontSize: "14px",

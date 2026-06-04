@@ -14,7 +14,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed top-[24px] right-[24px] z-[100] font-[var(--font-rajdhani)] font-normal text-[14px]">
+    <nav className="fixed top-[24px] left-1/2 -translate-x-1/2 md:left-auto md:right-[24px] md:translate-x-0 z-[100] font-[var(--font-rajdhani)] font-normal text-[14px]">
       <div className="flex rounded-full border border-white/15 bg-transparent p-[4px]">
         {navLinks.map((link) => {
           const isActive = pathname === link.path;

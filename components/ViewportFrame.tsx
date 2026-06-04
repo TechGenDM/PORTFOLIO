@@ -40,6 +40,7 @@ export default function ViewportFrame() {
 
   return (
     <svg
+      className="viewport-frame-svg"
       style={{
         position: 'fixed',
         top: 0,

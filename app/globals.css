@@ -2,6 +2,7 @@
 
 html {
   min-height: 100vh;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -9,6 +10,12 @@ body {
   overflow-x: hidden;
   background-color: #000000;
   color: #ffffff;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Default: hide system cursor on desktop (custom cursor replaces it) */
+body {
+  cursor: none;
 }
 
 @keyframes float {
@@ -16,61 +23,87 @@ body {
   50%       { transform: translateY(-6px); }
 }
 
-/* ── Mobile responsive overrides ──────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE — 768px and below
+═══════════════════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
+
+  /* Restore system cursor on touch devices */
+  body {
+    cursor: auto !important;
+  }
 
   /* Hide custom cursor on touch devices */
   .custom-cursor {
-    display: none;
+    display: none !important;
   }
 
-  /* Home page — 3D canvas */
-  .scene-container {
-    width: 300px !important;
-    height: 300px !important;
+  /* Hide decorative viewport frame on mobile */
+  .viewport-frame-svg {
+    display: none !important;
   }
 
-  /* Home page — hero name */
-  .hero-name {
-    font-size: 28px !important;
+  /* ── Work Page ─────────────────────────────────────────────────── */
+
+  .work-bg-text {
+    font-size: clamp(3rem, 16vw, 8rem) !important;
+    -webkit-text-stroke: 1px white !important;
   }
 
-  /* Home page — bottom tagline */
-  .hero-tagline {
-    font-size: 24px !important;
+  .work-glass-card {
+    padding: 20px !important;
+    border-radius: 20px !important;
   }
 
-  /* Work page — stack panels vertically */
-  .work-left-panel {
-    position: relative !important;
-    width: 100% !important;
-    height: auto !important;
-    left: auto !important;
-    padding-bottom: 40px;
+  .work-project-title {
+    font-size: 1.5rem !important;
+    line-height: 1.2 !important;
   }
 
-  .work-right-panel {
-    position: relative !important;
-    left: auto !important;
-    right: auto !important;
-    width: 100% !important;
-    height: 360px !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  /* ── About Page ────────────────────────────────────────────────── */
+
+  .about-status-badge {
+    top: 68px !important;
+    left: 20px !important;
   }
 
-  .work-divider {
-    display: none;
+  .journey-card {
+    justify-content: center !important;
+  }
+  .journey-card > .glass-card {
+    width: 90% !important;
   }
 
-  .work-page-root {
-    height: auto !important;
-    overflow-y: auto !important;
-    overflow-x: hidden;
+  .timeline-dot-mobile-hide {
+    display: none !important;
+  }
+  .timeline-line {
+    display: none !important;
   }
 
-  /* About page — horizontal padding */
-  .about-content {
-    padding-left: 24px !important;
-    padding-right: 24px !important;
+  .about-stats-row {
+    gap: 24px !important;
+  }
+
+  .about-skills-section {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .cap-card {
+    padding: 24px 20px !important;
+  }
+
+  .about-form-embed {
+    min-height: 600px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   EXTRA SMALL — 480px and below
+═══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .work-project-title {
+    font-size: 1.25rem !important;
   }
 }

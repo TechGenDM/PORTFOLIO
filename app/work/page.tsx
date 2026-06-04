@@ -204,7 +204,7 @@ export default function WorkPage() {
             animate={{ opacity: 0.03, scale: 1 }}
             exit={{ opacity: 0, scale: 1.1 }}
             transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="absolute whitespace-nowrap text-center"
+            className="absolute whitespace-nowrap text-center work-bg-text"
             style={{
               fontFamily: "var(--font-orbitron)",
               fontSize: "clamp(10rem, 25vw, 30rem)",
@@ -242,7 +242,7 @@ export default function WorkPage() {
           >
             
             {/* Left Column: Repo Details */}
-            <div className="w-full lg:w-1/2 flex flex-col items-start glass-card p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden group">
+            <div className="w-full lg:w-1/2 flex flex-col items-start work-glass-card p-6 md:p-12 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden group">
               {/* Card internal glow */}
               <div 
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
@@ -269,7 +269,7 @@ export default function WorkPage() {
 
               <motion.h2 
                 variants={itemVariants}
-                className="text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-white leading-tight mb-2 capitalize"
+                className="text-3xl md:text-5xl lg:text-6xl font-orbitron font-bold text-white leading-tight mb-2 capitalize work-project-title"
                 style={{ textShadow: "0 0 40px rgba(255,255,255,0.2)" }}
               >
                 {activeRepo.name}
@@ -377,7 +377,7 @@ export default function WorkPage() {
             />
           </div>
           <div className="font-orbitron text-sm text-white/40">
-            0{repos.length}
+            0{repos.length < 10 ? repos.length : repos.length}
           </div>
         </div>
 
