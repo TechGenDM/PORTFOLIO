@@ -5,9 +5,9 @@ import gsap from "gsap";
 import Scene from "@/components/three/SceneWrapper";
 
 const stats = [
-  { value: "3+", label: "Years Building" },
-  { value: "20+", label: "Projects Shipped" },
-  { value: "AI", label: "Focused Stack" },
+  { value: "1+", label: "Years Building" },
+  { value: "36+", label: "Projects Shipped" },
+  { value: "AI & Systems", label: "Focused Stack" },
 ];
 
 const socials = [
@@ -519,7 +519,7 @@ export default function Home() {
           <span className="tagline-gradient">Imagine. Engineer. Impact.</span>
         </div>
 
-        {/* ── BOTTOM-LEFT: Scroll indicator ── */}
+        {/* ── BOTTOM-LEFT: Shift toggle (dummy) ── */}
         <div
           ref={scrollRef}
           style={{
@@ -528,46 +528,42 @@ export default function Home() {
             left: "44px",
             display: "flex",
             alignItems: "center",
-            gap: "10px",
+            gap: "12px",
             zIndex: 20,
+            cursor: "pointer",
           }}
         >
           <div
             style={{
+              width: "42px",
+              height: "22px",
+              borderRadius: "999px",
+              border: "1.5px solid rgba(255, 255, 255, 0.9)",
               display: "flex",
-              flexDirection: "column",
               alignItems: "center",
-              gap: "3px",
+              padding: "0 3px",
             }}
           >
             <div
               style={{
-                width: "1px",
-                height: "28px",
-                background:
-                  "linear-gradient(180deg, transparent, rgba(255,255,255,0.3))",
-              }}
-            />
-            <div
-              className="scroll-indicator"
-              style={{
-                width: "4px",
-                height: "4px",
+                width: "12px",
+                height: "12px",
                 borderRadius: "50%",
-                background: "rgba(255,255,255,0.5)",
+                background: "rgba(255, 255, 255, 0.9)",
               }}
             />
           </div>
           <span
             style={{
               fontFamily: "var(--font-rajdhani)",
-              fontSize: "10px",
-              color: "rgba(255,255,255,0.3)",
-              letterSpacing: "0.15em",
+              fontSize: "14px",
+              fontWeight: 500,
+              color: "rgba(255, 255, 255, 0.9)",
+              letterSpacing: "0.2em",
               textTransform: "uppercase",
             }}
           >
-            Scroll
+            SHIFT
           </span>
         </div>
       </div>

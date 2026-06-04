@@ -34,27 +34,113 @@ const journey = [
   },
 ];
 
-const skills = [
-  { name: "Next.js",     category: "Frontend" },
-  { name: "React",       category: "Frontend" },
-  { name: "TypeScript",  category: "Frontend" },
-  { name: "Three.js",    category: "Frontend" },
-  { name: "Tailwind CSS",category: "Frontend" },
-  { name: "Node.js",     category: "Backend" },
-  { name: "Python",      category: "Backend" },
-  { name: "PostgreSQL",  category: "Backend" },
-  { name: "MongoDB",     category: "Backend" },
-  { name: "REST/GraphQL",category: "Backend" },
-  { name: "LangChain",   category: "AI" },
-  { name: "OpenAI API",  category: "AI" },
-  { name: "Hugging Face",category: "AI" },
-  { name: "Vector DBs",  category: "AI" },
-  { name: "RAG Systems", category: "AI" },
-  { name: "Git/GitHub",  category: "Tools" },
-  { name: "Docker",      category: "Tools" },
-  { name: "Vercel",      category: "Tools" },
-  { name: "Firebase",    category: "Tools" },
-  { name: "Figma",       category: "Tools" },
+const skillCategories = [
+  {
+    title: "Languages",
+    icon: "🌐",
+    skills: [
+      { name: "JAVASCRIPT", color: "bg-[#ff6b81] text-white" },
+      { name: "TYPESCRIPT", color: "bg-[#ff9f43] text-white" },
+      { name: "PYTHON", color: "bg-[#feca57] text-black" },
+      { name: "JAVA", color: "bg-[#f1c40f] text-black" },
+      { name: "HTML5", color: "bg-[#78e08f] text-black" },
+      { name: "CSS3", color: "bg-[#82ccdd] text-black" },
+      { name: "RUST", color: "bg-[#ff6b81] text-white" },
+    ]
+  },
+  {
+    title: "Frontend",
+    icon: "⚛️",
+    skills: [
+      { name: "REACT.JS", color: "bg-[#ff6b81] text-white" },
+      { name: "REACT NATIVE", color: "bg-[#ff9f43] text-white" },
+      { name: "REACT HOOKS", color: "bg-[#feca57] text-black" },
+      { name: "NEXT.JS", color: "bg-[#f1c40f] text-black" },
+      { name: "TAILWIND CSS", color: "bg-[#78e08f] text-black" },
+      { name: "BOOTSTRAP", color: "bg-[#82ccdd] text-black" },
+      { name: "VERCEL V0", color: "bg-[#a29bfe] text-white" },
+      { name: "MONACO EDITOR", color: "bg-[#ff9ff3] text-black" },
+      { name: "WEBASSEMBLY", color: "bg-[#ff6b81] text-white" },
+      { name: "INDEXEDDB", color: "bg-[#ff9f43] text-white" },
+    ]
+  },
+  {
+    title: "Backend & Databases",
+    icon: "🛠️",
+    skills: [
+      { name: "NODE.JS", color: "bg-[#ff6b81] text-white" },
+      { name: "EXPRESS.JS", color: "bg-[#ff9f43] text-white" },
+      { name: "FLASK", color: "bg-[#feca57] text-black" },
+      { name: "SOCKET.IO", color: "bg-[#f1c40f] text-black" },
+      { name: "ELECTRON.JS", color: "bg-[#78e08f] text-black" },
+      { name: "ZOD", color: "bg-[#82ccdd] text-black" },
+      { name: "MONGODB", color: "bg-[#a29bfe] text-white" },
+      { name: "MYSQL", color: "bg-[#ff9ff3] text-black" },
+      { name: "SQLITE", color: "bg-[#ff6b81] text-white" },
+    ]
+  },
+  {
+    title: "AI / ML & LLMs",
+    icon: "🤖",
+    skills: [
+      { name: "LARGE LANGUAGE MODELS", color: "bg-[#ff6b81] text-white" },
+      { name: "RAG", color: "bg-[#ff9f43] text-white" },
+      { name: "DEEPSEEK", color: "bg-[#feca57] text-black" },
+      { name: "DEEP LEARNING", color: "bg-[#f1c40f] text-black" },
+      { name: "NEURAL NETWORKS", color: "bg-[#78e08f] text-black" },
+      { name: "MACHINE LEARNING", color: "bg-[#82ccdd] text-black" },
+      { name: "SCIKIT-LEARN", color: "bg-[#a29bfe] text-white" },
+      { name: "VERTEX AI", color: "bg-[#ff9ff3] text-black" },
+      { name: "GOOGLE CLOUD RUN", color: "bg-[#ff6b81] text-white" },
+    ]
+  },
+  {
+    title: "Data Science",
+    icon: "📊",
+    skills: [
+      { name: "DATA SCIENCE", color: "bg-[#ff9f43] text-white" },
+      { name: "DATA ANALYSIS", color: "bg-[#feca57] text-black" },
+      { name: "PANDAS", color: "bg-[#f1c40f] text-black" },
+      { name: "NUMPY", color: "bg-[#78e08f] text-black" },
+      { name: "MATPLOTLIB", color: "bg-[#82ccdd] text-black" },
+      { name: "SEABORN", color: "bg-[#a29bfe] text-white" },
+      { name: "JUPYTER", color: "bg-[#ff9ff3] text-black" },
+    ]
+  },
+  {
+    title: "Tools & DevOps",
+    icon: "🔧",
+    skills: [
+      { name: "GIT", color: "bg-[#ff6b81] text-white" },
+      { name: "GITHUB", color: "bg-[#ff9f43] text-white" },
+      { name: "VERCEL", color: "bg-[#feca57] text-black" },
+      { name: "WORDPRESS", color: "bg-[#f1c40f] text-black" },
+      { name: "VS CODE", color: "bg-[#a29bfe] text-white" },
+      { name: "DESKTOP APP DEV", color: "bg-[#ff9ff3] text-black" },
+      { name: "DOCKER", color: "bg-[#ff6b81] text-white" },
+      { name: "NIX", color: "bg-[#ff9f43] text-white" },
+    ]
+  },
+  {
+    title: "Distributed Systems & Systems Engineering",
+    icon: "🔗",
+    skills: [
+      { name: "CRDTS", color: "bg-[#ff6b81] text-white" },
+      { name: "LOCAL-FIRST ARCHITECTURE", color: "bg-[#ff9f43] text-white" },
+      { name: "PEER-TO-PEER SYNC", color: "bg-[#feca57] text-black" },
+      { name: "OFFLINE-FIRST SYSTEMS", color: "bg-[#f1c40f] text-black" },
+      { name: "EVENTUAL CONSISTENCY", color: "bg-[#78e08f] text-black" },
+      { name: "CONFLICT RESOLUTION", color: "bg-[#82ccdd] text-black" },
+      { name: "STORAGE ENGINE DESIGN", color: "bg-[#a29bfe] text-white" },
+      { name: "DISTRIBUTED SYSTEMS", color: "bg-[#ff9ff3] text-black" },
+      { name: "REPLICATION PROTOCOLS", color: "bg-[#ff6b81] text-white" },
+      { name: "VECTOR CLOCKS", color: "bg-[#ff9f43] text-white" },
+      { name: "DATABASE INTERNALS", color: "bg-[#feca57] text-black" },
+      { name: "PROPERTY-BASED TESTING", color: "bg-[#f1c40f] text-black" },
+      { name: "SYSTEMS PROGRAMMING (RUST)", color: "bg-[#78e08f] text-black" },
+      { name: "OLTP ENGINE DESIGN", color: "bg-[#82ccdd] text-black" },
+    ]
+  }
 ];
 
 const capabilities = [
@@ -175,13 +261,13 @@ export default function AboutPage() {
       }
 
       /* ── Skills section ─────────────────────────────────────── */
-      const skillPills = skillsRef.current?.querySelectorAll(".skill-pill");
+      const skillPills = skillsRef.current?.querySelectorAll(".skill-box");
       if (skillPills) {
         gsap.fromTo(skillPills,
-          { opacity: 0, scale: 0.7, y: 20 },
+          { opacity: 0, scale: 0.9, y: 15 },
           {
             opacity: 1, scale: 1, y: 0,
-            duration: 0.4, stagger: 0.04, ease: "back.out(1.5)",
+            duration: 0.3, stagger: 0.02, ease: "back.out(1.5)",
             scrollTrigger: {
               trigger: skillsRef.current,
               start: "top 75%",
@@ -305,23 +391,25 @@ export default function AboutPage() {
           transform: translateY(-4px);
           box-shadow: 0 8px 40px rgba(0,0,0,0.3), 0 0 60px rgba(80,120,255,0.06);
         }
-        .skill-pill {
-          padding: 10px 20px;
-          border-radius: 999px;
-          border: 1px solid rgba(255,255,255,0.1);
-          background: rgba(255,255,255,0.04);
+        .skill-box {
+          padding: 6px 14px;
+          border-radius: 4px;
           font-family: var(--font-rajdhani);
-          font-size: 14px;
-          letter-spacing: 0.08em;
-          color: rgba(255,255,255,0.65);
+          font-size: 13px;
+          font-weight: 700;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
           cursor: default;
-          transition: all 0.3s ease;
+          transition: all 0.2s ease;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
-        .skill-pill:hover {
-          border-color: rgba(100,160,255,0.5);
-          color: rgba(255,255,255,0.95);
-          background: rgba(100,160,255,0.08);
-          box-shadow: 0 0 20px rgba(80,120,255,0.15);
+        .skill-box:hover {
+          transform: translateY(-2px) scale(1.02);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+          filter: brightness(1.1);
         }
         .cap-card {
           padding: 36px 32px;
@@ -481,8 +569,8 @@ export default function AboutPage() {
       <section ref={statsRef} style={{ padding: "80px 24px", zIndex: 2, position: "relative" }}>
         <div style={{ maxWidth: 1000, margin: "0 auto", display: "flex", justifyContent: "center", gap: "clamp(40px, 8vw, 100px)", flexWrap: "wrap" }}>
           {[
-            { num: 3, label: "Years Building" },
-            { num: 20, label: "Projects Shipped" },
+            { num: 1, label: "Years Building" },
+            { num: 36, label: "Projects Shipped" },
             { num: 50, label: "Technologies Used" },
             { num: 10, label: "Happy Clients" },
           ].map((s) => (
@@ -513,32 +601,38 @@ export default function AboutPage() {
       {/* ════════════════════════════════════════════════════════
           SECTION 4 — SKILLS / ARSENAL
       ════════════════════════════════════════════════════════ */}
-      <section ref={skillsRef} style={{ padding: "100px 24px", maxWidth: 900, margin: "0 auto", zIndex: 2, position: "relative" }}>
+      <section ref={skillsRef} style={{ padding: "100px 24px", maxWidth: 1000, margin: "0 auto", zIndex: 2, position: "relative" }}>
         <div className="section-label" style={{ textAlign: "center" }}>Technical Arsenal</div>
         <h2 style={{ fontFamily: "var(--font-orbitron)", fontSize: "clamp(22px, 3vw, 36px)", color: "#fff", textAlign: "center", marginBottom: 20, letterSpacing: "0.04em" }}>
           Tools I Build With
         </h2>
-        <p style={{ fontFamily: "var(--font-rajdhani)", fontSize: 15, color: "rgba(255,255,255,0.4)", textAlign: "center", marginBottom: 48, maxWidth: 460, marginLeft: "auto", marginRight: "auto" }}>
+        <p style={{ fontFamily: "var(--font-rajdhani)", fontSize: 15, color: "rgba(255,255,255,0.4)", textAlign: "center", marginBottom: 64, maxWidth: 460, marginLeft: "auto", marginRight: "auto" }}>
           From frontend frameworks to AI infrastructure — a curated stack for building modern, intelligent products.
         </p>
 
-        {/* Group by category */}
-        {(["Frontend", "Backend", "AI", "Tools"] as const).map((cat) => (
-          <div key={cat} style={{ marginBottom: 32 }}>
-            <div style={{
-              fontFamily: "var(--font-rajdhani)", fontSize: 11, fontWeight: 400,
-              color: "rgba(100,160,255,0.6)", letterSpacing: "0.2em", textTransform: "uppercase",
-              marginBottom: 12, paddingLeft: 4,
-            }}>
-              {cat}
+        <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+          {skillCategories.map((category) => (
+            <div key={category.title}>
+              <h3 style={{
+                fontFamily: "var(--font-rajdhani)", fontSize: 20, fontWeight: 600,
+                color: "#fff", marginBottom: 16, display: "flex", alignItems: "center", gap: 10
+              }}>
+                <span style={{ fontSize: 20 }}>{category.icon}</span> {category.title}
+              </h3>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                {category.skills.map((s) => (
+                  <span
+                    key={s.name}
+                    className={`skill-box ${s.color}`}
+                  >
+                    {s.name}
+                  </span>
+                ))}
+              </div>
+              <div style={{ height: 1, background: "rgba(255,255,255,0.08)", marginTop: 32 }} />
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-              {skills.filter(s => s.category === cat).map((s) => (
-                <span key={s.name} className="skill-pill">{s.name}</span>
-              ))}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </section>
 
       {/* ════════════════════════════════════════════════════════
