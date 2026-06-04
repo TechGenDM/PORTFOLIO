@@ -58,15 +58,6 @@ npm run dev
 
 ---
 
-## 📈 Stats because numbers are cool
-
-<div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=TechGenDM&show_icons=true&theme=radium&hide_border=true" alt="GitHub Stats" />
-</div>
-
-<br />
-
----
 
 ## 🤝 Let's Connect
 
