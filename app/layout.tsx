@@ -23,6 +23,17 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://techgendm.dev"),
   title: "Devasish Mishra (TechGen_DM) | Portfolio",
   description: "Portfolio of Devasish Mishra (TechGenDM), Full Stack Developer & AI Enthusiast.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png" },
+    ],
+  },
+  manifest: "/site.webmanifest",
   openGraph: {
     title: "Devasish Mishra (TechGen_DM) | Portfolio",
     description: "Portfolio of Devasish Mishra (TechGenDM), Full Stack Developer & AI Enthusiast.",
