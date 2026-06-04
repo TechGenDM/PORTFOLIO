@@ -14,6 +14,12 @@
 <br />
 
 <div align="center">
+  <img src="./public/portfolio-preview.png" alt="Portfolio Preview" width="100%" style="border-radius: 15px; border: 2px solid #333; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);" />
+</div>
+
+<br />
+
+<div align="center">
   <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHYxcWZ2OHQwZWQ2MzByNzMwdnByZTV1bHkwdTcwZWF4cnQ2NXQ0diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LmNwrBhejkK9EFP504/giphy.gif" alt="Hacker Cat Meme" width="400" style="border-radius: 15px;" />
   <p><i>Me centering a <code>div</code> perfectly on the first try.</i></p>
 </div>
